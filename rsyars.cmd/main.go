@@ -21,7 +21,7 @@ import (
 	"github.com/xxzl0130/rsyars/pkg/util"
 	"github.com/xxzl0130/rsyars/rsyars.adapter/hycdes"
 	"github.com/xxzl0130/rsyars/rsyars.x/soc"
-	cipher "github.com/xxzl0130/GF_cipher"
+	cipher "github.com/xxzl0130/rsyars/GF_cipher"
 )
 
 func main() {

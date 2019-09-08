@@ -7,8 +7,8 @@ github.com/elazarl/goproxy/ext v0.0.0-20190421051319-9d40249d3c2f/go.mod h1:gNh8
 github.com/pkg/errors v0.8.1 h1:iURUrRGxPUNPdy5/HRSm+Yj6okJ6UtLINN0Q9M4+h3I=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/rogpeppe/go-charset v0.0.0-20180617210344-2471d30d28b4/go.mod h1:qgYeAmZ5ZIpBWTGllZSQnw97Dj+woV0toclVaRGI8pc=
-github.com/xxzl0130/GF_cipher v0.0.0-20190907020816-f4b10a66d33c h1:VP8m/3bA9mYRBi9lsz7G4heclNZTz/MZ6Q9eoTJxDpI=
-github.com/xxzl0130/GF_cipher v0.0.0-20190907020816-f4b10a66d33c/go.mod h1:WrUcKdPq2VHV5a7cNkrZJNc3aZY9ocXqm+rjQw3fRqo=
+golang.org/x/sys v0.0.0-20190907184412-d223b2b6db03 h1:b3JiLYVaG9kHjTcOQIoUh978YMCO7oVTQQBLudU47zY=
+golang.org/x/sys v0.0.0-20190907184412-d223b2b6db03/go.mod h1:h1NjWce9XRLGQEsW7wpKNCjG9DtNlClVuFLEZdDNbEs=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405 h1:yhCVgyC4o1eVCa2tZl7eS0r+SDo693bJlVdllGtEeKM=
 gopkg.in/check.v1 v0.0.0-20161208181325-20d25e280405/go.mod h1:Co6ibVJAznAaIkqp8huTwlJQCZ016jof/cbN4VW5Yz0=
 gopkg.in/yaml.v2 v2.2.2 h1:ZCJp+EgiOT7lHqUV2J862kp8Qj64Jo6az82+3Td9dZw=
