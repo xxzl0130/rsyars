@@ -1,6 +1,7 @@
 # Rsyars
 
-Rsyars is a tool for GIRLS' FRONTLINE.
+Rsyars is a tool for GIRLS' FRONTLINE.  
+本程序用于提取少女前线中重装芯片数据，转换为[乐章の网页计算器](https://hycdes.com/pages/GFT_ChipCal.html)可用的代码。
 
 ## 使用方法
 1. 打开程序后，程序将显示代理地址  
