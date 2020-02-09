@@ -1,6 +1,7 @@
 # Rsyars
-
 Rsyars is a tool for GIRLS' FRONTLINE.  
+![GitHub](https://img.shields.io/github/license/xxzl0130/rsyars) ![GitHub release (latest by date)](https://img.shields.io/github/v/release/xxzl0130/rsyars) ![GitHub All Releases](https://img.shields.io/github/downloads/xxzl0130/rsyars/total)  
+
 本程序用于提取少女前线中重装芯片数据，转换为[乐章の网页计算器](https://hycdes.com/pages/GFT_ChipCal.html)可用的代码。
 
 ## 使用方法
