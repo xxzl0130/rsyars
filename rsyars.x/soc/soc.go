@@ -3,6 +3,7 @@ package soc
 type SoC struct {
 	ID              string `json:"id"`
 	ChipID          string `json:"chip_id"`
+	ChipExp			string `json:"chip_exp"`
 	ChipLevel       string `json:"chip_level"`
 	ColorID         string `json:"color_id"`
 	GridID          string `json:"grid_id"`
