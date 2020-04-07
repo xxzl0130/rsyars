@@ -1,3 +1,3 @@
 set GOARCH=amd64
 set GOOS=darwin
-go build -o rsyars .\rsyars.cmd\main.go
+packr build -o theater .\rsyars.cmd\main.go .\rsyars.cmd\DB.go

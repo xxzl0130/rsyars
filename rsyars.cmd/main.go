@@ -8,18 +8,19 @@ import (
 	"net"
 	"net/http"
 	"regexp"
-	"sort"
+	//"sort"
 	"strings"
 	"time"
+	"strconv"
 
-	"github.com/atotto/clipboard"
+	//"github.com/atotto/clipboard"
 	"github.com/elazarl/goproxy"
 	"github.com/pkg/errors"
 	yaml "gopkg.in/yaml.v2"
 
 	log_std "github.com/xxzl0130/rsyars/pkg/log"
 	"github.com/xxzl0130/rsyars/pkg/util"
-	"github.com/xxzl0130/rsyars/rsyars.adapter/hycdes"
+	//"github.com/xxzl0130/rsyars/rsyars.adapter/hycdes"
 	"github.com/xxzl0130/rsyars/rsyars.x/soc"
 	cipher "github.com/xxzl0130/rsyars/GF_cipher"
 )
@@ -80,11 +81,19 @@ type rsyars struct {
 	ch   chan response
 	conf confT
 	key string
+	teamInfo map[string]*enemy_team_infoT
+	enemyInfo map[string]*enemy_in_team_infoT
+	characterInfo map[string]*enemy_character_typeT
+	table map[string]string
+	translation tranlsationT
 }
 
 func (rs *rsyars) Run() error {
 	go rs.loop()
-
+	if err := rs.InitDB(); err != nil{
+		rs.log.Fatalf("初始化失败")
+		return err
+	}
 	localhost, err := rs.getLocalhost()
 	if err != nil {
 		rs.log.Fatalf("获取代理地址失败 -> %+v", err)
@@ -106,9 +115,16 @@ func (rs *rsyars) Run() error {
 	return nil
 }
 
+type TheaterInfo struct{
+	AreaID		int		`json:"theater_area_id"`
+	EnemyTeams	string	`json:"enemy_teams"`
+	BattleNo	int		`json:"battle_enemy_no"`
+}
+
 func (rs *rsyars) build(body response) {
 	type Girls struct {
 		SoC map[string]*soc.SoC `json:"chip_with_user_info"`
+		Theater TheaterInfo `json:"theater_exercise_info"`
 	}
 	type Uid struct {
 		Sign string `json:"sign"`
@@ -152,6 +168,22 @@ func (rs *rsyars) build(body response) {
 		}
 	}
 
+	if girls.Theater.AreaID == 0{
+		girls.Theater.AreaID = 536
+	}
+	if girls.Theater.AreaID != 0{
+		teams := strings.Split(girls.Theater.EnemyTeams,",")
+		for i := 0; i < len(teams); i++ {
+			c := " "
+			if i == girls.Theater.BattleNo{
+				c = ">"
+			}
+			team,_ := strconv.Atoi(teams[i])
+			rs.log.Tipsf("%s第%d波：%s",c,i + 1,rs.getEnemyTeamInfo(rs.areaNo2EnemyTeamId(girls.Theater.AreaID, team)))
+		}
+	}
+
+/*
 	var values []*soc.SoC
 	for _, c := range girls.SoC {
 		values = append(values, c)
@@ -196,14 +228,15 @@ func (rs *rsyars) build(body response) {
 			rs.log.Tipsf("芯片代码已复制到剪贴板")
 		}
 	}
+*/
 }
 
 func (rs *rsyars) loop() {
 	for body := range rs.ch {
-		c := time.Now().Unix()
-		rs.log.Infof("处理响应数据 -> %d", c)
+		//c := time.Now().Unix()
+		//rs.log.Infof("处理响应数据 -> %d", c)
 		if body.Body == nil {
-			rs.log.Infof("响应数据为空 程序退出 -> %d", c)
+			//rs.log.Infof("响应数据为空 程序退出 -> %d", c)
 			break
 		}
 		go rs.build(body)
@@ -211,11 +244,11 @@ func (rs *rsyars) loop() {
 }
 
 func (rs *rsyars) onResponse(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
-	rs.log.Infof("处理请求响应 -> %s", path(ctx.Req))
+	//rs.log.Infof("处理请求响应 -> %s", path(ctx.Req))
 
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		rs.log.Errorf("读取响应数据失败 -> %+v", err)
+		//rs.log.Errorf("读取响应数据失败 -> %+v", err)
 		return resp
 	}
 	resp.Body = ioutil.NopCloser(bytes.NewBuffer(body))
@@ -231,7 +264,7 @@ func (rs *rsyars) onResponse(resp *http.Response, ctx *goproxy.ProxyCtx) *http.R
 
 func (rs *rsyars) condition() goproxy.ReqConditionFunc {
 	return func(req *http.Request, ctx *goproxy.ProxyCtx) bool {
-		rs.log.Infof("请求 -> %s", path(req))
+		//rs.log.Infof("请求 -> %s", path(req))
 		if strings.HasSuffix(req.Host, "ppgame.com") || strings.HasSuffix(req.Host, "sn-game.txwy.tw")  || strings.HasSuffix(req.Host, "girlfrontline.co.kr") || strings.HasSuffix(req.Host, "sunborngame.com") {
 			if strings.HasSuffix(req.URL.Path, "/Index/index") || strings.HasSuffix(req.URL.Path, "/Index/getDigitalSkyNbUid") || strings.HasSuffix(req.URL.Path, "/Index/getUidTianxiaQueue") || strings.HasSuffix(req.URL.Path,"/Index/getUidEnMicaQueue"){				rs.log.Infof("请求通过 -> %s", path(req))
 				return true
