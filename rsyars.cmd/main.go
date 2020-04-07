@@ -168,9 +168,6 @@ func (rs *rsyars) build(body response) {
 		}
 	}
 
-	if girls.Theater.AreaID == 0{
-		girls.Theater.AreaID = 536
-	}
 	if girls.Theater.AreaID != 0{
 		teams := strings.Split(girls.Theater.EnemyTeams,",")
 		for i := 0; i < len(teams); i++ {
@@ -181,6 +178,8 @@ func (rs *rsyars) build(body response) {
 			team,_ := strconv.Atoi(teams[i])
 			rs.log.Tipsf("%s第%d波：%s",c,i + 1,rs.getEnemyTeamInfo(rs.areaNo2EnemyTeamId(girls.Theater.AreaID, team)))
 		}
+	}else{
+		rs.log.Tipsf("未在战区战斗中，无数据！")
 	}
 
 /*
