@@ -31,8 +31,8 @@ type tranlsationT struct{
 }
 
 func (rs *rsyars) InitDB() error{
-	db := packr.NewBox("../GFDB/src/db/json")
-	locale := packr.NewBox("../GFDB/src/locales/zh")
+	db := packr.NewBox("./GFDB/src/db/json")
+	locale := packr.NewBox("./GFDB/src/locales/zh")
 	data,e := db.FindString("enemy_team_info.json")
 	if e != nil{
 		rs.log.Errorf("读取JSON数据失败 -> %+v", e)
